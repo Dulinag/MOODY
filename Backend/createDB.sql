@@ -1,3 +1,6 @@
+
+CREATE DATABASE moody;
+
 CREATE TABLE users (
     user_id SERIAL PRIMARY KEY,
     username VARCHAR(50) UNIQUE,
@@ -39,12 +42,12 @@ CREATE TABLE comments (
     song_id INT,
     comment TEXT,
     created_at TIMESTAMP DEFAULT NOW(),
-    FOREIGN KEY (user_id) REFERENCES users(user_idid),
+    FOREIGN KEY (user_id) REFERENCES users(user_id),
     FOREIGN KEY (song_id) REFERENCES songs(song_id)
 );
 
 CREATE TABLE likes (
-    lies_id SERIAL PRIMARY KEY,
+    likes_id SERIAL PRIMARY KEY,
     user_id INT,
     comment_id INT,
     created_at TIMESTAMP DEFAULT NOW(),
