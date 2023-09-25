@@ -11,7 +11,34 @@ app.use(express.json());
 
 //Routes//
 
-app.post('/users', async (req, res) => {
+//genre get
+app.get('/genres', async (req, res) => {
+    const client = await pool.connect();
+    try {
+      const result = await client.query('SELECT * FROM genres');
+      res.json(result.rows);
+    } finally {
+      client.release();
+    }
+  });
+
+//user get
+
+  app.get('/users', async (req, res) => {
+    const client = await pool.connect();
+    try {
+      const result = await client.query('SELECT * FROM users');
+      res.json(result.rows);
+      console.log(result)
+
+    } 
+    
+    finally {
+      client.release();
+    }
+  });
+
+  app.post('/users', async (req, res) => {
     try {
       const { username, password, image_url, email } = req.body;
       const newUser = await pool.query(
@@ -25,16 +52,7 @@ app.post('/users', async (req, res) => {
       res.status(500).send('Server Error');
     }
   });
-  
-  app.get('/users', async (req, res) => {
-    const client = await pool.connect();
-    try {
-      const result = await client.query('SELECT * FROM users');
-      res.json(result.rows);
-    } finally {
-      client.release();
-    }
-  });
+
   app.put('/users/:user_id', async (req, res) => {
     const { user_id } = req.params;
     const { username, password, image_url, email } = req.body;
@@ -60,7 +78,32 @@ app.post('/users', async (req, res) => {
       client.release();
     }
   });
-app.listen(5000, () =>{
 
-    console.log("Server has started on port 5000")
+
+  //song routes
+
+  app.get('/songs', async (req, res) => {
+    // Set the Color header for the first request
+    if (req.headers['x-first-request']) {
+      res.header('Color', 'red');
+    }
+  
+    try {
+      const client = await pool.connect();
+      const result = await client.query('SELECT * FROM songs');
+      const songs = result.rows;
+      client.release();
+  
+      console.log('Songs:', songs);
+  
+      res.send(songs);
+    } catch (err) {
+      console.error(err);
+      res.status(500).send('Internal Server Error');
+    }
+  });
+
+app.listen(3000, () =>{
+
+    console.log("Server has started on port 3000")
 });
