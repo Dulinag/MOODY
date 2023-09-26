@@ -1,36 +1,52 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Project Proposal for Team-08
 
-## Getting Started
+## **Team Name** : Code Slingers
 
-First, run the development server:
+## **Project Name:** Moody
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## **Team Members:**
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Name : **Abil Shrestha** , Email : **Abil.Shrestha@cix.csi.cuny.edu,** 
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Git-hub : **Abil-Shrestha ,** College : **CUNY College of Staten Island**
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+Name : **Ferneri Febus,** Email :**Fernerimelo@gmail.com,** 
 
-## Learn More
+Git-hub : **Ferneri-F,** College : CUNY York College
 
-To learn more about Next.js, take a look at the following resources:
+Name : **Dulina Gunasekara,** 
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Email : **DULINA.GUNASEKERA69@myhunter.cuny.edu**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+Git-hub : **Dulinag,** College : **CUNY Hunter College**
 
-## Deploy on Vercel
+## **Executive summary**
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Our proposed app is a social media platform that allows users to connect with each other through music. Users can share their favorite songs, create playlists, and discover new music. The app also has a music player feature that allows users to listen to music offline. We believe that music is a powerful way to connect people. It can bring people together from all walks of life and create a sense of community. Our app aims to harness the power of music to bring people together and create a more social and connected world.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Our app is designed for anyone who loves music. This includes music lovers of all ages, genres, and backgrounds. The app is also a great way for musicians to connect with their fans and share their music with the world. There are a number of similar applications available, such as Spotify, Soundcloud, and Apple Music. However, our app aims to differentiate itself by focusing on the social aspect of music. Users can use our app to connect with other music lovers, share their favorite songs, and discover new music.
+
+## User-Types
+
+### Listeners:
+
+ These are the users who listen to music on the app. They can find and listen to music by genre, mood, artist, or other criteria. They can also create and share playlists.
+
+### Creators:
+
+These are the users who create and share music on the app. They can upload their own songs, remixes, or covers. They can also collaborate with other creators to create new music
+
+### Curators:
+
+These are the users who curate playlists of music for other users. They can create playlists based on their own taste or the taste of their followers.
+
+### Moderators:
+
+These are the users who help to keep the app community safe and respectful. They can remove inappropriate content and ban users who violate the app's terms of service.
+
+### Important Workflows:
+
+- **Discovering new music:** Users should be able to easily find new music that they will enjoy. This could be done through features such as a music discovery algorithm, personalized recommendations, or user-generated playlists.
+- **Creating and sharing playlists:** Users should be able to easily create and share playlists with their friends and followers.
+- **Listening to music:** Users should be able to easily listen to their favorite music, either offline or online.
+- **Connecting with other music lovers:** This is a great way for users to find new music and make friends.
