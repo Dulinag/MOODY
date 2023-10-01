@@ -2,6 +2,7 @@ import './globals.css'
 import type { Metadata } from 'next'
 import { Figtree } from 'next/font/google'
 import Sidebar from '@/components/Sidebar'
+import Player from '@/components/Player'
 
 const font = Figtree({ subsets: ['latin'] })
 
@@ -21,6 +22,7 @@ export default function RootLayout({
         <Sidebar>
           {children}
         </Sidebar>
+        <Player />
         </body>
     </html>
   )
