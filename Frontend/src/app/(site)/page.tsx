@@ -1,6 +1,6 @@
 import Header from "@/components/Header"
 import ListItem from "@/components/ListItem"
-import PageContent from "@/components/PageContent"
+import PageContent from "./components/pageContent"
 import { dummyData } from '@/data/dummydata'
 
 
@@ -22,16 +22,17 @@ export default function Home() {
               text-white
               text-3xl
               font-semibold">
-              Moody
+              Moody 
             </h1>
             <div className="
               grid
-              grid-cols-1
+              grid-cols-2
               sm:grid-cols-2
-              xl:grid-cols-3
-              2xl:grid-cols-4
+              xl:grid-cols-6
+              2xl:grid-cols-6
               gap-3
               mt-4
+              col-span-1
               ">
                 <ListItem
                   image='/images/liked.png'
@@ -46,7 +47,7 @@ export default function Home() {
               Newest Songs
             </h1>
         </div>
-          <div>
+          <div >
             <PageContent songs={dummyData}/>
           </div>
         </div>
