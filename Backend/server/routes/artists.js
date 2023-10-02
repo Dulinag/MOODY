@@ -7,6 +7,27 @@ const pool = require('../db');
 
 router.use(express.json());
 
+
+router.get('/:artist_id', async (req, res) => {
+    const artist_id = req.params.artist_id;
+
+    const client = await pool.connect();
+    try {
+        const result = await client.query('SELECT * FROM artists WHERE artist_id = $1', [artist_id]);
+
+        if (result.rows.length === 0) {
+            return res.status(404).json({ message: 'Artist not found' });
+        }
+
+        res.json(result.rows[0]);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    } finally {
+        client.release();
+    }
+});
+
 router.get('/', async (req, res) => {
     try {
       const client = await pool.connect();

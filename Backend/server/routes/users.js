@@ -63,5 +63,17 @@ router.get('/', async (req, res) => {
     }
   });
 
+  router.get('/:user_id', async (req, res) => {
+    const { user_id } = req.params;
+    const client = await pool.connect();
+    try {
+      const result = await client.query('SELECT * FROM users WHERE user_id = $1', [user_id]);
+      res.json(result.rows[0]);
+    } finally {
+      client.release();
+    }
+  });
+  
+
 
   module.exports = router;
