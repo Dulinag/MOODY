@@ -64,6 +64,27 @@ router.get('/', async (req, res) => {
         client.release();
     }
   });
+
+  router.get('/:comment_id', async (req, res) => {
+    const comment_id = req.params.comment_id;
+
+    const client = await pool.connect();
+    try {
+        const result = await client.query('SELECT * FROM comments WHERE comment_id = $1', [comment_id]);
+
+        if (result.rows.length === 0) {
+            return res.status(404).json({ message: 'Comment not found' });
+        }
+
+        res.json(result.rows[0]);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    } finally {
+        client.release();
+    }
+});
+
   
   router.delete('/:comment_id', async (req, res) => {
     const comment_id = req.params.comment_id;
