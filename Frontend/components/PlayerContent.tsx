@@ -1,10 +1,11 @@
 "use client";
 // @ts-expect-error
 import useSound from 'use-sound';
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { BsPauseFill, BsPlayFill } from "react-icons/bs";
 import { HiSpeakerWave, HiSpeakerXMark } from "react-icons/hi2";
 import { AiFillStepBackward, AiFillStepForward } from "react-icons/ai";
+import ReactHowler from 'react-howler'
 
 import { Song } from "@/types";
 import usePlayer from "@/hooks/usePlayer";
@@ -26,6 +27,8 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
     const player = usePlayer();
     const [volume, setVolume] = useState(1);
     const [isPlaying, setIsPlaying] = useState(false);
+    const [songduration, setSongduration ] = useState(0);
+    const soundRef = useRef(null)
 
     const Icon = isPlaying ? BsPauseFill : BsPlayFill;
     const VolumeIcon = volume === 0 ? HiSpeakerXMark : HiSpeakerWave;
@@ -60,36 +63,53 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
         player.setId(previousSong);
     }
 
-    const [play, { pause, sound }] = useSound(
-        songUrl,
-        {
-            volume: volume,
-            onplay: () => setIsPlaying(true),
-            onend: () => {
-                setIsPlaying(false);
-                onPlayNext();
-            },
-            onpause: () => setIsPlaying(false),
-            format: ['mp3']
-        }
-    );
+    // const [play, { pause, sound, duration }] = useSound(
+    //     songUrl,
+    //     {
+    //         volume: volume,
+    //         onplay: () => setIsPlaying(true),
+    //         onend: () => {
+    //             setIsPlaying(false);
+    //             onPlayNext();
+    //         },
+    //         onpause: () => setIsPlaying(false),
+    //         format: ['mp3']
+    //     }
+    // );
+
 
     useEffect(() => {
-        sound?.play();
-
-        return () => {
-            sound?.unload();
-        }
-    }, [sound]);
+        setIsPlaying(true);
+        // sound?.play();
+        // return () => {
+        //     sound?.unload();
+        // }
+    }, []);
 
     const handlePlay = () => {
         if (!isPlaying) {
-            play();
+            setIsPlaying(true);
         } else {
-            pause();
+            setIsPlaying(false);
         }
     }
 
+    function formatTime(duration ) {
+        // 1 minute is 60,000 milliseconds
+        const minutes = duration / 60000;
+        console.log(minutes)
+        return minutes;
+      }
+    
+    const onLoad = () => {
+            const songDuration = soundRef.current.duration()
+            setSongduration(songDuration)
+    }
+
+    const onEnd = () => {
+            setIsPlaying(false);
+            onPlayNext();
+    }
     const toggleMute = () => {
         if (volume === 0) {
             setVolume(1);
@@ -104,9 +124,17 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
                 <div className="flex items-center gap-x-10">
                     <MediaItem data={song} />
                     <LikeButton songId={song.id} />
+                    <ReactHowler
+                        playing={isPlaying}
+                        src={songUrl}
+                        ref={soundRef}
+                        onLoad={onLoad}
+                        onEnd={onEnd}
+                        html5={true}
+                        />
                 </div>
             </div>
-
+            
             <div
                 className="
             flex 
@@ -184,6 +212,7 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
                     "
                 />
             </div>
+            
 
             <div className="hidden md:flex w-full justify-end pr-2">
                 <div className="flex items-center gap-x-2 w-[120px]">
