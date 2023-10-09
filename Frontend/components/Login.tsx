@@ -1,75 +1,76 @@
 "use client";
 
+import React, {useEffect } from 'react'
+import { useRouter } from 'next/navigation';
+import Link from 'next/link'
 
-import React, {useState} from 'react'
-import SignUp from "./SignUp"
+import useModal from '@/hooks/modalStore'
+import Modal from './Modal'
 
 interface SignUpProps {
   darkMode: boolean;
 }
 const Login: React.FC<SignUpProps> = ({ darkMode }) => {
 
-    const [showSignUp, setShowSignUp] = useState(false);
+    const router = useRouter();
+    const { onClose, isOpen } = useModal();
 
-    const handleSignUpClick = () => {
-        setShowSignUp(true);
+    useEffect(() => {
+        //handle user session here later
+      }, );
+    
+      const onChange = (open: boolean) => {
+        if (!open) {
+          onClose();
+        }
       }
 
     return (
-<>
-
-
-<div className="flex justify-center items-center min-h-screen"><div className={`bg-${darkMode ? 'black' : 'grey'}-lighter min-h-screen flex flex-col`}>            
-<div className="container relative max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2 :hover {}">                <div className="bg-white px-6 py-8 rounded shadow-md text-black w-full">
+    <>
+        <Modal 
+        title="Login" 
+        description="" 
+        isOpen={isOpen} 
+        onChange={onChange} 
+        >
+            
                     <h1 className="mb-8 text-3xl text-center">Login</h1>
-                   
                     <input 
                         type="text"
                         className=" text-white block border border-grey-light w-full p-3 rounded mb-4"
                         name="email"
                         placeholder="Email" />
                         
-
                     <input 
                         type="password"
                         className=" text-white block border border-grey-light w-full p-3 rounded mb-4"
                         name="password"
                         placeholder="Password" />
-                  
                     <button
                         type="submit"
                         className=" bg-indigo-500 w-full text-center py-3 rounded bg-green text-white hover:bg-green-dark focus:outline-none my-1"
                     >Login</button>
 
                     <div className="text-center text-sm text-grey-dark mt-4">
-                        By Logining in, you agree to the 
-                        <a className="no-underline border-b border-grey-dark text-grey-dark" href="#">
+                        By Logining in, you agree to the &nbsp;
+                        <Link className="no-underline border-b " href="#">
                             Terms of Service
-                        </a> and 
-                        <a className="no-underline border-b border-grey-dark text-grey-dark" href="#">
+                        </Link> and &nbsp;
+                        <Link className="no-underline border-b " href="#">
                             Privacy Policy
-                        </a>
+                        </Link>
                     </div>
-                </div>
 
                 <div className="text-grey-dark mt-6">
-                    Don't have an account? 
+                    Don't have an account? &nbsp;
                     
-                    <a className="no-underline border-b border-blue text-blue" href="../signup/">
+                    <Link className="no-underline border-b border-blue text-blue" href="../signup/">
                     Sign up
-                    </a>.
+                    </Link>.
                 </div>
-            </div>
-        </div>
-
-        {showSignUp && <SignUp darkMode={false} />} {/* Render the SignUp component if showSignUp is true */}
-
-
-</div>
-
-
-
-</>
+      
+        </Modal>
+    </>
     )
   }
   
