@@ -5,6 +5,9 @@ import {RxCaretLeft, RxCaretRight} from 'react-icons/rx'
 import { HiHome } from 'react-icons/hi';
 import { BiSearch } from 'react-icons/bi';
 import Button from './Button';
+import React, {useState, useRef, useEffect} from 'react';
+import SignUp from './SignUp'
+import Login from "./Login"
 
 interface HeaderProps {
     children: React.ReactNode;
@@ -12,6 +15,23 @@ interface HeaderProps {
 }
 const Header:React.FC<HeaderProps> = ({children, className}) => {
   const router =useRouter();
+
+  
+  const [showSignUp, setShowSignUp] = useState(false);
+  const [showLogin, setShowLogin] = useState(false);
+
+  const signUpRef = useRef<HTMLDivElement>(null);
+  const loginRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (showSignUp && signUpRef.current) {
+      signUpRef.current.focus();
+    }
+    if (showLogin && loginRef.current) {
+      loginRef.current.focus();
+    }
+  }, [showSignUp, showLogin]);
+
   const handleLogour = () => {
 
     //handle logout in future
@@ -77,7 +97,10 @@ const Header:React.FC<HeaderProps> = ({children, className}) => {
                     <>
                         <div>
                             <Button 
-                            onClick={()=> {}}
+                            onClick={() => {
+                                setShowSignUp(true);
+                                setShowLogin(false); // Close Login when SignUp is clicked
+                              }}
                             className=" 
                                 bg-transparent
                                 text-neutral-300
@@ -87,8 +110,12 @@ const Header:React.FC<HeaderProps> = ({children, className}) => {
                         </div>
                         <div>
                             <Button 
-                            onClick={()=> {}}
-                            className=" 
+                onClick={() => {
+                    setShowLogin(true);
+                    setShowSignUp(false); // Close SignUp when Login is clicked
+                  }}
+                 className=" 
+
                                 bg-white
                                 px-6
                                 py-2">
@@ -99,6 +126,13 @@ const Header:React.FC<HeaderProps> = ({children, className}) => {
             </div>
         </div>
         {children}
+        {showLogin && <Login darkMode={false} />} {/* Render the SignUp component if showSignUp is true */}
+
+     
+     
+        {showSignUp && <SignUp darkMode={false} />} {/* Render the SignUp component if showSignUp is true */}
+   
+   
     </div>
   )
 }
