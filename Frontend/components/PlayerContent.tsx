@@ -1,10 +1,11 @@
-
+//@ts-nocheck
 "use client";
 import { useEffect, useState, useRef } from "react";
 import { BsPauseFill, BsPlayFill } from "react-icons/bs";
 import { HiSpeakerWave, HiSpeakerXMark } from "react-icons/hi2";
 import { AiFillStepBackward, AiFillStepForward } from "react-icons/ai";
 import ReactHowler from 'react-howler'
+import raf from 'raf'
 import formatDuration from 'format-duration'
 
 import { Song } from "@/types";
@@ -25,7 +26,7 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
     songUrl
 }) => {
     const player = usePlayer();
-    const [volume, setVolume] = useState(1);
+    const volume = player.volume
     const [isPlaying, setIsPlaying] = useState(false);
     const [songduration, setSongduration ] = useState(0);
     const [seek, setSeek] = useState(0.0)
@@ -77,11 +78,10 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
     if (isPlaying && !isSeeking) {
         const f = () => {
         setSeek(soundRef.current.seek())
-        timerId = requestAnimationFrame(f)
+        timerId = raf(f)
         }
 
-        timerId = requestAnimationFrame(f)
-        return () => cancelAnimationFrame(timerId as number)
+        timerId = raf(f)
     }
 
     }, [isPlaying, isSeeking])
@@ -118,9 +118,9 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
     }
     const toggleMute = () => {
         if (volume === 0) {
-            setVolume(1);
+            player.setVolume(1);
         } else {
-            setVolume(0);
+            player.setVolume(0);
         }
     }
 
@@ -236,16 +236,16 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
                     </div>
                     <div className="w-full flex justify-center items-center  ">    
                     <input
-                    className="w-full h-1 bg-gray-900 rounded-lg accent-gray-200 cursor-pointer range-sm dark:bg-white"
-                    type='range'
-                    min='0'
-                    max={songduration ? songduration.toFixed(2) as unknown as number : 0}
-                    step='0.1'
-                    value={seek}
-                    onChange={onSeek}
-                    onMouseDown={() => setIsSeeking(true)}  
-                    onMouseUp={() => setIsSeeking(false)}
-                />
+                        className="w-full h-0.5 bg-gray-900 rounded-lg accent-gray-200 cursor-pointer range-sm dark:bg-white transition"
+                        type='range'
+                        min='0'
+                        max={songduration ? songduration.toFixed(2) as unknown as number : 0}
+                        step='0.00001'
+                        value={seek}
+                        onChange={onSeek}
+                        onMouseDown={() => setIsSeeking(true)}  
+                        onMouseUp={() => setIsSeeking(false)}
+                    />
                     </div>
                     <div className="w-1/10 text-neutral-200 text-right">
                     <p className="text-xs">{formatTime(songduration)}</p>
@@ -263,7 +263,7 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
                     />
                     <Slider
                         value={volume}
-                        onChange={(value) => setVolume(value)}
+                        onChange={(value) => player.setVolume(value)}
                     />
                 </div>
             </div>
