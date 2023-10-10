@@ -1,10 +1,11 @@
+
 "use client";
-// @ts-expect-error
-import useSound from 'use-sound';
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { BsPauseFill, BsPlayFill } from "react-icons/bs";
 import { HiSpeakerWave, HiSpeakerXMark } from "react-icons/hi2";
 import { AiFillStepBackward, AiFillStepForward } from "react-icons/ai";
+import ReactHowler from 'react-howler'
+import formatDuration from 'format-duration'
 
 import { Song } from "@/types";
 import usePlayer from "@/hooks/usePlayer";
@@ -26,6 +27,10 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
     const player = usePlayer();
     const [volume, setVolume] = useState(1);
     const [isPlaying, setIsPlaying] = useState(false);
+    const [songduration, setSongduration ] = useState(0);
+    const [seek, setSeek] = useState(0.0)
+    const [isSeeking, setIsSeeking] = useState(false)
+    const soundRef = useRef(null)
 
     const Icon = isPlaying ? BsPauseFill : BsPlayFill;
     const VolumeIcon = volume === 0 ? HiSpeakerXMark : HiSpeakerWave;
@@ -60,36 +65,57 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
         player.setId(previousSong);
     }
 
-    const [play, { pause, sound }] = useSound(
-        songUrl,
-        {
-            volume: volume,
-            onplay: () => setIsPlaying(true),
-            onend: () => {
-                setIsPlaying(false);
-                onPlayNext();
-            },
-            onpause: () => setIsPlaying(false),
-            format: ['mp3']
-        }
-    );
+
 
     useEffect(() => {
-        sound?.play();
+        setIsPlaying(true);
+      }, [])
 
-        return () => {
-            sound?.unload();
+    useEffect(() => {
+    let timerId : number
+
+    if (isPlaying && !isSeeking) {
+        const f = () => {
+        setSeek(soundRef.current.seek())
+        timerId = requestAnimationFrame(f)
         }
-    }, [sound]);
+
+        timerId = requestAnimationFrame(f)
+        return () => cancelAnimationFrame(timerId as number)
+    }
+
+    }, [isPlaying, isSeeking])
 
     const handlePlay = () => {
         if (!isPlaying) {
-            play();
+            setIsPlaying(true);
+            setIsSeeking(true);
         } else {
-            pause();
+            setIsPlaying(false);
         }
     }
 
+    function formatTime(timeInSeconds = 0) {
+        return formatDuration(timeInSeconds * 1000)
+      }
+    
+    const onSeek = (e) => {
+        setIsSeeking(true)
+        e && e.target && e.target.value ?(setSeek(parseFloat(e.target.value)),
+        soundRef.current.seek(e.target.value)): setIsSeeking(false);
+        setIsSeeking(false)
+    }
+    
+    const onLoad = () => {
+            const songDuration = soundRef.current.duration()
+            setSongduration(songDuration)
+    }
+
+    const onEnd = () => {
+            setIsPlaying(false);
+            onPlayNext();
+            setSeek(0)
+    }
     const toggleMute = () => {
         if (volume === 0) {
             setVolume(1);
@@ -100,13 +126,30 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
 
     return (
         <div className="grid grid-cols-3 md:grid-cols-3 h-full">
-            <div className="flex w-full justify-start">
-                <div className="flex items-center gap-x-10">
-                    <MediaItem data={song} />
+            <div className="flex min-w-[100px] justify-start">
+                <div className="flex items-center gap-x-20">
+                <div className="flex items-center gap-x-3">
+                    {song && song[0] && song[0].image_path ? (
+                        <img src={song[0].image_path} width={60} height={60} alt="Song Cover" />
+                    ) : (
+                        <></>
+                    )}
+                    {song && song[0] && song[0].title ? <p>{song[0].title}</p> : <p>No title available</p>}
+                </div>
                     <LikeButton songId={song.id} />
+                    <ReactHowler
+                        playing={isPlaying}
+                        src={songUrl}
+                        ref={soundRef}
+                        onLoad={onLoad}
+                        onEnd={onEnd}
+                        onSeek={onSeek}
+                        html5={true}
+                        volume={volume}
+                        />
                 </div>
             </div>
-
+            {/* mobile */}
             <div
                 className="
             flex 
@@ -127,14 +170,15 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
                     justify-center 
                     rounded-full 
                     bg-white 
-                    p-1 
+                    p-5 
                     cursor-pointer
                     "
                 >
                     <Icon size={30} className="text-black" />
                 </div>
             </div>
-
+            {/* big screen */ }      
+            <div className="text-gray-600 flex flex-col ">
             <div
                 className="
                     hidden
@@ -163,8 +207,8 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
                         flex 
                         items-center 
                         justify-center
-                        h-10
-                        w-10 
+                        h-8
+                        w-8 
                         rounded-full 
                         bg-white 
                         p-1 
@@ -183,7 +227,32 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
                     transition
                     "
                 />
+                
             </div>
+                {/* Seek Bar */}
+                <div className="flex justify-center items-center gap-x-2">
+                    <div className="w-1/10">
+                    <p className="text-xs text-neutral-200">{formatTime(seek)}</p>
+                    </div>
+                    <div className="w-full flex justify-center items-center  ">    
+                    <input
+                    className="w-full h-1 bg-gray-900 rounded-lg accent-gray-200 cursor-pointer range-sm dark:bg-white"
+                    type='range'
+                    min='0'
+                    max={songduration ? songduration.toFixed(2) as unknown as number : 0}
+                    step='0.1'
+                    value={seek}
+                    onChange={onSeek}
+                    onMouseDown={() => setIsSeeking(true)}  
+                    onMouseUp={() => setIsSeeking(false)}
+                />
+                    </div>
+                    <div className="w-1/10 text-neutral-200 text-right">
+                    <p className="text-xs">{formatTime(songduration)}</p>
+                    </div>
+                </div>
+                </div>
+            
 
             <div className="hidden md:flex w-full justify-end pr-2">
                 <div className="flex items-center gap-x-2 w-[120px]">
