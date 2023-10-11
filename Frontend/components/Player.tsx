@@ -14,7 +14,6 @@ const Player = () => {
     if (!song || !songUrl || !player.activeId) {
         return null;
     }
-    console.log(song)
     return (
         <div
             className="

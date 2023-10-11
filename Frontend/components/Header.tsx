@@ -8,6 +8,7 @@ import Button from './Button';
 import React, {useState, useRef, useEffect} from 'react';
 import SignUp from './SignUp'
 import Login from "./Login"
+import useModal from '@/hooks/modalStore'
 
 interface HeaderProps {
     children: React.ReactNode;
@@ -20,17 +21,7 @@ const Header:React.FC<HeaderProps> = ({children, className}) => {
   const [showSignUp, setShowSignUp] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
 
-  const signUpRef = useRef<HTMLDivElement>(null);
-  const loginRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (showSignUp && signUpRef.current) {
-      signUpRef.current.focus();
-    }
-    if (showLogin && loginRef.current) {
-      loginRef.current.focus();
-    }
-  }, [showSignUp, showLogin]);
+  const openModal = useModal((state) => state.onOpen)
 
   const handleLogour = () => {
 
@@ -95,24 +86,28 @@ const Header:React.FC<HeaderProps> = ({children, className}) => {
                 items-center
                 gap-x-4">
                     <>
-                        <div>
-                            <Button 
-                            onClick={() => {
-                                setShowSignUp(true);
-                                setShowLogin(false); // Close Login when SignUp is clicked
-                              }}
-                            className=" 
-                                bg-transparent
-                                text-neutral-300
-                                font-medium">
-                                Sign Up
-                            </Button>
-                        </div>
+                    <div>
+                <Button 
+                  onClick={() => {
+                    openModal()
+                    setShowLogin(false)
+                    setShowSignUp(true)
+                  }}
+                  className="
+                    bg-transparent 
+                    text-neutral-300 
+                    font-medium
+                  "
+                >
+                  Sign up
+                </Button>
+              </div>
                         <div>
                             <Button 
                 onClick={() => {
-                    setShowLogin(true);
-                    setShowSignUp(false); // Close SignUp when Login is clicked
+                    openModal()
+                    setShowLogin(true)
+                    setShowSignUp(false)
                   }}
                  className=" 
 
@@ -126,13 +121,8 @@ const Header:React.FC<HeaderProps> = ({children, className}) => {
             </div>
         </div>
         {children}
-        {showLogin && <Login darkMode={false} />} {/* Render the SignUp component if showSignUp is true */}
-
-     
-     
-        {showSignUp && <SignUp darkMode={false} />} {/* Render the SignUp component if showSignUp is true */}
-   
-   
+        {showLogin && <Login darkMode={false} /> }
+        {showSignUp && <SignUp darkMode={false}/>}
     </div>
   )
 }
