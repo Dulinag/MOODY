@@ -1,9 +1,11 @@
 const express = require('express');
 const router = express.Router()
+const bcrypt = require('bcrypt');
 
 
 
 const pool = require('../db');
+
 
 router.use(express.json());
 
@@ -73,6 +75,42 @@ router.get('/', async (req, res) => {
       client.release();
     }
   });
+  router.post('/login', async (req, res) => {
+    const { email, password } = req.body;
+  
+    let client;
+  
+    try {
+      client = await pool.connect();
+  
+      const result = await client.query('SELECT * FROM users WHERE email = $1', [email]);
+  
+      console.log('Result:', result.rows);
+  
+      if (result.rows.length === 0) {
+        console.log('Invalid email');
+        return res.status(401).json({ message: 'Invalid credentials' });
+      }
+      const user = result.rows[0];
+  
+      // Compare the passwords directly (for learning purposes)
+      if (password !== user.password) {
+        client.release();
+        return res.status(401).json({ message: 'Invalid credentials' });
+      }
+  
+      client.release();
+      res.json({ message: 'Login successful' });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Internal Server Error' });
+    }
+  });
+
+
+
+
+  
   
 
 

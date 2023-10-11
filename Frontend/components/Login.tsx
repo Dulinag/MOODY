@@ -1,11 +1,12 @@
 "use client";
 
-import React, {useEffect } from 'react'
+import React, {useEffect, useState, useRef } from 'react'
 import { useRouter } from 'next/navigation';
 import Link from 'next/link'
 
 import useModal from '@/hooks/modalStore'
 import Modal from './Modal'
+import ApiUsers from "../Api/UsersApi"
 
 interface SignUpProps {
   darkMode: boolean;
@@ -24,7 +25,39 @@ const Login: React.FC<SignUpProps> = ({ darkMode }) => {
           onClose();
         }
       }
+      const emailOrUsernameRef = useRef<any>(null)
+      const passwordref = useRef<any>(null)
+      const [users, setUsers] = useState({ error: "" });
 
+
+      const loginUser = async (e) => {
+        e.preventDefault();
+      
+        const username = emailOrUsernameRef.current.value;
+        const password = passwordref.current.value;
+      
+        // Simple validation checks
+        if (!username || !password) {
+            setUsers({ error: "All fields are required." });
+          return;
+        }
+      
+        try {
+            const result = await ApiUsers.post("/users/login", { username, password });
+            setUsers(result.data);
+          } catch (error: any) {
+            if (error.response && error.response.status === 401) {
+              setUsers({ error: "Invalid credentials. Please check your email and password." });
+            } else {
+              console.error('Error logging in:', error);
+              setUsers({ error: "An error occurred while logging in." });
+            }
+          }
+          
+          
+          
+      }
+      
     return (
     <>
         <Modal 
@@ -32,14 +65,16 @@ const Login: React.FC<SignUpProps> = ({ darkMode }) => {
         description="" 
         isOpen={isOpen} 
         onChange={onChange} 
-        > 
-                    <input 
+        > <form onSubmit={loginUser}>
+                    <input
+                        ref = {emailOrUsernameRef} 
                         type="text"
                         className=" text-white block border border-grey-light w-full p-3 rounded mb-4"
                         name="email"
-                        placeholder="Email" />
+                        placeholder="Email or Username" />
                         
                     <input 
+                        ref = {passwordref}
                         type="password"
                         className=" text-white block border border-grey-light w-full p-3 rounded mb-4"
                         name="password"
@@ -65,8 +100,11 @@ const Login: React.FC<SignUpProps> = ({ darkMode }) => {
                     <Link className="no-underline border-b border-blue text-blue" href="../signup/">
                     Sign up
                     </Link>.
+
+                    {users && <p>{JSON.stringify(users)}</p>}
+
                 </div>
-      
+                </form>
         </Modal>
     </>
     )
