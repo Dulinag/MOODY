@@ -48,6 +48,11 @@ const SignUp: React.FC<SignUpProps> = ({ darkMode }) => {
         try {
           const result = await ApiUsers.post("/users", { username, password, email });
           setFeedback(result.data);
+      
+          // Reset form values
+          usernameref.current.value = "";
+          passwordref.current.value = "";
+          emailref.current.value = "";
         } catch (error) {
           console.error('Error creating user:', error);
           setFeedback({ error: "An error occurred while creating the user." });
