@@ -1,9 +1,14 @@
 const express = require('express');
 const router = express.Router()
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+require('dotenv').config(); // Load environment variables from .env
 
+const accessTokenSecret = process.env.ACESSS_TOKEN_SECRET; // Load access token secret from environment variables
 
 
 const pool = require('../db');
+
 
 router.use(express.json());
 
@@ -25,9 +30,11 @@ router.get('/', async (req, res) => {
   router.post('/', async (req, res) => {
     try {
       const { username, password, image_url, email } = req.body;
+      const hashedPassword = await bcrypt.hash(password, 10); // Hash the password
+  
       const newUser = await pool.query(
         'INSERT INTO users (username, password, image_url, email) VALUES ($1, $2, $3, $4) RETURNING *',
-        [username, password, image_url, email]
+        [username, hashedPassword, image_url, email]
       );
   
       res.json(newUser.rows[0]);
@@ -36,7 +43,7 @@ router.get('/', async (req, res) => {
       res.status(500).send('Server Error');
     }
   });
-
+  
   router.put('/:user_id', async (req, res) => {
     const { user_id } = req.params;
     const { username, password, image_url, email } = req.body;
@@ -73,6 +80,45 @@ router.get('/', async (req, res) => {
       client.release();
     }
   });
+
+
+  router.post('/login', async (req, res) => {
+    const { email, password } = req.body;
+  
+    try {
+      const client = await pool.connect();
+  
+      const result = await client.query('SELECT * FROM users WHERE email = $1', [email]);
+  
+      if (result.rows.length === 0) {
+        client.release();
+        return res.status(401).json({ message: 'Invalid email or password' });
+      }
+  
+      const user = result.rows[0];
+  
+      const isPasswordValid = await bcrypt.compare(password, user.password);
+  
+      if (!isPasswordValid) {
+        client.release();
+        return res.status(401).json({ message: 'Invalid email or password' });
+      }
+  
+      const token = jwt.sign({ userId: user.id }, accessTokenSecret, { expiresIn: '1h' });
+  
+      client.release();
+      res.json({ token });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: 'Internal Server Error' });
+    }
+  });
+  
+
+
+
+
+  
   
 
 
