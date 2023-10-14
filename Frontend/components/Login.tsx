@@ -33,27 +33,24 @@ const Login: React.FC<SignUpProps> = ({ darkMode }) => {
 
 
       const [users, setUsers] = useState({ error: "" });
-      const [email, setEmail] = useState('');
-      const [username, setUsername] = useState('');
-
+      const [emailOrUsername, SetEmailOrUsername] = useState('');
        const [password, setPassword] = useState('');
       const [error, setError] = useState('');
 
       const loginUser = async (e) => {
         e.preventDefault();
     
-        console.log('Username:', email || username);
+        console.log('UsernameorEmail:', emailOrUsername);
         console.log('Password:', password);
     
-    
         // Simple validation checks
-        if (!(email || username) || !password) {
+        if (!emailOrUsername || !password) {
           setError("All fields are required.");
           return;
         }
         console.log('Before API call');
         try {
-          const result = await ApiUsers.post("/users/login", { email, username, password });
+          const result = await ApiUsers.post("/users/login", { emailOrUsername, password });
           console.log('Result:', result);
           const token = result.data.token;
     
@@ -92,12 +89,8 @@ const Login: React.FC<SignUpProps> = ({ darkMode }) => {
         onChange={onChange} 
         > <form onSubmit={loginUser}>
                     <input
-                   value={email || username}
-                   onChange={(e) => {
-                       const inputValue = e.target.value;
-                       setEmail(inputValue);
-                       setUsername(inputValue); // Update the username state as well
-                   }}                         type="text"
+                    value={emailOrUsername} 
+                        onChange={(e) => SetEmailOrUsername(e.target.value)}                         type="text"
                         className=" text-white block border border-grey-light w-full p-3 rounded mb-4"
                         name="email"
                         placeholder="Email or Username" />

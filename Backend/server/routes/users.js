@@ -85,48 +85,46 @@ router.get('/', async (req, res) => {
     }
   });
 
-  
   router.post('/login', async (req, res) => {
-    const { email, username, password } = req.body; // Add username to the destructuring
-  
+    const { emailOrUsername, password } = req.body;
+
     try {
-      const client = await pool.connect();
-  
-      let result;
-  
-      if (email) {
-        result = await client.query('SELECT * FROM users WHERE email = $1', [email]);
-      } else if (username) {
-        result = await client.query('SELECT * FROM users WHERE username = $1', [username]);
-      } else {
+        const client = await pool.connect();
+
+        let result;
+
+        // Check if the input is an email address
+        const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailOrUsername);
+
+        if (isEmail) {
+            result = await client.query('SELECT * FROM users WHERE email = $1', [emailOrUsername]);
+        } else {
+            result = await client.query('SELECT * FROM users WHERE username = $1', [emailOrUsername]);
+        }
+
+        if (result.rows.length === 0) {
+            client.release();
+            return res.status(401).json({ message: 'Invalid email or username or password' });
+        }
+
+        const user = result.rows[0];
+
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+
+        if (!isPasswordValid) {
+            client.release();
+            return res.status(401).json({ message: 'Invalid email or username or password' });
+        }
+
+        const token = jwt.sign({ userId: user.id }, accessTokenSecret, { expiresIn: '1h' });
+
         client.release();
-        return res.status(400).json({ message: 'Please provide either email or username' });
-      }
-  
-      if (result.rows.length === 0) {
-        client.release();
-        return res.status(401).json({ message: 'Invalid email or username or password' });
-      }
-  
-      const user = result.rows[0];
-  
-      const isPasswordValid = await bcrypt.compare(password, user.password);
-  
-      if (!isPasswordValid) {
-        client.release();
-        return res.status(401).json({ message: 'Invalid email or username or password' });
-      }
-  
-      const token = jwt.sign({ userId: user.id }, accessTokenSecret, { expiresIn: '1h' });
-  
-      client.release();
-      res.json({ token });
+        res.json({ token });
     } catch (error) {
-      console.error(error);
-      res.status(500).json({ message: 'Internal Server Error' });
+        console.error(error);
+        res.status(500).json({ message: 'Internal Server Error' });
     }
-  });
-  
+});
 
 
   
