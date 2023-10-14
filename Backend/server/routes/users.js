@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router()
 const bcrypt = require('bcrypt');
+const cors = require('cors'); // Add this line
+
 const jwt = require('jsonwebtoken');
 require('dotenv').config(); // Load environment variables from .env
 
@@ -11,6 +13,8 @@ const pool = require('../db');
 
 
 router.use(express.json());
+
+router.use(cors()); // Use CORS middleware
 
 
 router.get('/', async (req, res) => {
@@ -81,18 +85,27 @@ router.get('/', async (req, res) => {
     }
   });
 
-
+  
   router.post('/login', async (req, res) => {
-    const { email, password } = req.body;
+    const { email, username, password } = req.body; // Add username to the destructuring
   
     try {
       const client = await pool.connect();
   
-      const result = await client.query('SELECT * FROM users WHERE email = $1', [email]);
+      let result;
+  
+      if (email) {
+        result = await client.query('SELECT * FROM users WHERE email = $1', [email]);
+      } else if (username) {
+        result = await client.query('SELECT * FROM users WHERE username = $1', [username]);
+      } else {
+        client.release();
+        return res.status(400).json({ message: 'Please provide either email or username' });
+      }
   
       if (result.rows.length === 0) {
         client.release();
-        return res.status(401).json({ message: 'Invalid email or password' });
+        return res.status(401).json({ message: 'Invalid email or username or password' });
       }
   
       const user = result.rows[0];
@@ -101,7 +114,7 @@ router.get('/', async (req, res) => {
   
       if (!isPasswordValid) {
         client.release();
-        return res.status(401).json({ message: 'Invalid email or password' });
+        return res.status(401).json({ message: 'Invalid email or username or password' });
       }
   
       const token = jwt.sign({ userId: user.id }, accessTokenSecret, { expiresIn: '1h' });
@@ -114,8 +127,6 @@ router.get('/', async (req, res) => {
     }
   });
   
-
-
 
 
   

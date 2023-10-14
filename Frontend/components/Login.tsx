@@ -33,24 +33,28 @@ const Login: React.FC<SignUpProps> = ({ darkMode }) => {
 
 
       const [users, setUsers] = useState({ error: "" });
+      const [email, setEmail] = useState('');
       const [username, setUsername] = useState('');
+
        const [password, setPassword] = useState('');
       const [error, setError] = useState('');
 
       const loginUser = async (e) => {
         e.preventDefault();
     
-        console.log('Username:', username);
+        console.log('Username:', email || username);
         console.log('Password:', password);
     
+    
         // Simple validation checks
-        if (!username || !password) {
+        if (!(email || username) || !password) {
           setError("All fields are required.");
           return;
         }
-    
+        console.log('Before API call');
         try {
-          const result = await ApiUsers.post("/users/login", { username, password });
+          const result = await ApiUsers.post("/users/login", { email, username, password });
+          console.log('Result:', result);
           const token = result.data.token;
     
           console.log(token)
@@ -65,6 +69,7 @@ const Login: React.FC<SignUpProps> = ({ darkMode }) => {
           // Redirect or perform any actions after successful login
           // ...
         } catch (error: any) {
+          console.error('Error:', error);
           if (error.response && error.response.status === 401) {
             setError("Invalid credentials. Please check your email and password.");
           } else {
@@ -72,51 +77,10 @@ const Login: React.FC<SignUpProps> = ({ darkMode }) => {
             setError("An error occurred while logging in.");
           }
         }
+        console.log('After API call');
       }
 
-      
-    //   const loginUser = async (e) => {
-
-    //     e.preventDefault(); // Prevent the default form submission behavior
-        
-    //     const email = emailOrUsernameRef.current.value;
-    //     const password = passwordref.current.value;
-        
-    //     // Simple validation checks
-    //     if (!email || !password) {
-    //      setUsers({ error: "All fields are required." });
-    //   return;
-    //     }
-      
-    //     // Logging to verify input
-    //     console.log('Username:', email);
-    //     console.log('Password:', password);
-      
-    //     try {
-    //       const response = await axios.post("http://localhost:5000/users/login", {
-    //         username: email,
-    //         password: password
-    //       });
-      
-    //       if (response.data.accessToken === undefined) {
-    //         localStorage.setItem('accessToken', 'null');
-    //         localStorage.setItem('username', JSON.stringify('Guest'));
-    //       } else {
-    //         localStorage.setItem('accessToken', response.data.accessToken);
-    //         localStorage.setItem('username', JSON.stringify(email));
-            
-    //       }
-      
-    //       console.log("response is " + JSON.stringify(response.data));
-    //       setUsers({ error: "sucessssssssss" });
-    //     } catch (error) {
-    //       console.error('Error logging in:', error);
-    //       setUsers({ error: "An error occurred while logging in." });
-    // }
-      
-    //     console.log('localstorage auth is ' + localStorage.getItem('accessToken'));
-    //     // window.location.reload(false);
-    //   };
+    
       
       
     return (
@@ -128,8 +92,12 @@ const Login: React.FC<SignUpProps> = ({ darkMode }) => {
         onChange={onChange} 
         > <form onSubmit={loginUser}>
                     <input
-                    value={username} 
-                        onChange={(e) => setUsername(e.target.value)}                         type="text"
+                   value={email || username}
+                   onChange={(e) => {
+                       const inputValue = e.target.value;
+                       setEmail(inputValue);
+                       setUsername(inputValue); // Update the username state as well
+                   }}                         type="text"
                         className=" text-white block border border-grey-light w-full p-3 rounded mb-4"
                         name="email"
                         placeholder="Email or Username" />
@@ -164,9 +132,11 @@ const Login: React.FC<SignUpProps> = ({ darkMode }) => {
                     Sign up
                     </Link>.
 
-                    {users && <p>{JSON.stringify(users)}</p>}
-
+                    {error && <div className="error-message">{error}</div>}
                 </div>
+
+
+                
                 </form>
         </Modal>
     </>

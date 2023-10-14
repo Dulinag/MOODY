@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@prisma/client": "^5.4.2",
     "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-slider": "^1.1.2",
     "@types/node": "20.6.3",
@@ -19,11 +20,14 @@
     "eslint": "8.49.0",
     "eslint-config-next": "13.5.2",
     "format-duration": "^3.0.2",
+    "formik": "^2.4.5",
     "howler": "^2.2.4",
     "next": "13.5.2",
+    "next-auth": "^4.23.2",
     "postcss": "8.4.30",
     "raf": "^3.4.1",
     "react": "18.2.0",
+    "react-auth-kit": "^3.0.0-alpha.15",
     "react-dom": "18.2.0",
     "react-howler": "^5.2.0",
     "react-icons": "^4.11.0",
@@ -33,5 +37,8 @@
     "typescript": "5.2.2",
     "use-sound": "^4.0.1",
     "zustand": "^4.4.1"
+  },
+  "devDependencies": {
+    "@types/react-auth-kit": "^1.2.1"
   }
 }
