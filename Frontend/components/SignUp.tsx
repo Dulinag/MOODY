@@ -28,7 +28,7 @@ const SignUp: React.FC<SignUpProps> = ({ darkMode }) => {
 
 
       const [users, setUsers] = useState();
-      const [feedback, setFeedback] = useState({ error: "" });
+      const [feedback, setFeedback] = useState("");
 
       const createUsers = async (e) => {
         e.preventDefault();
@@ -39,7 +39,7 @@ const SignUp: React.FC<SignUpProps> = ({ darkMode }) => {
       
         // Simple validation checks
         if (!username || !password || !email) {
-          setFeedback({ error: "All fields are required." });
+          setFeedback("All fields are required." );
           return;
         }
       
@@ -55,7 +55,7 @@ const SignUp: React.FC<SignUpProps> = ({ darkMode }) => {
           emailref.current.value = "";
         } catch (error) {
           console.error('Error creating user:', error);
-          setFeedback({ error: "An error occurred while creating the user." });
+          setFeedback("An error occurred while creating the user.");
         }
       }
       
@@ -120,9 +120,13 @@ const SignUp: React.FC<SignUpProps> = ({ darkMode }) => {
                         <Link className="no-underline border-b border-blue text-blue" href="../login/">
                             Log in
                         </Link>.
+
                         {feedback && <p>{JSON.stringify(feedback)}</p>}
 
+                        
+                        
                     </div>
+                    
             </form>
 
         </Modal >
