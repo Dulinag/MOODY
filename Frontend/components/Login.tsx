@@ -74,6 +74,10 @@ const Login: React.FC<SignUpProps> = ({ darkMode }) => {
             setError("An error occurred while logging in.");
           }
         }
+
+        setPassword('');
+        SetEmailOrUsername('');
+        router.push('/profile');
         console.log('After API call');
       }
 
