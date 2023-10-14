@@ -45,6 +45,17 @@ const SignUp: React.FC<SignUpProps> = ({ darkMode }) => {
       
         // Additional validation logic (e.g., password length, email format, etc.) can be added here
       
+
+        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+       if (!emailPattern.test(email)) {
+           setFeedback("Invalid email format.");
+          return;
+
+        
+  }
+
+  
         try {
           const result = await ApiUsers.post("/users", { username, password, email });
           setFeedback(result.data);
@@ -57,6 +68,8 @@ const SignUp: React.FC<SignUpProps> = ({ darkMode }) => {
           console.error('Error creating user:', error);
           setFeedback("An error occurred while creating the user.");
         }
+
+        router.push('/profile');
       }
       
       
