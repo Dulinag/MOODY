@@ -18,6 +18,7 @@ CREATE TABLE songs (
     album VARCHAR(100),
     image_url VARCHAR(255),
     created_at TIMESTAMP DEFAULT NOW(),
+    song_url VARCHAR(255),
     FOREIGN KEY (artist_id) REFERENCES artists(artist_id),
     FOREIGN KEY (genre_id) REFERENCES genres(genre_id)
 );

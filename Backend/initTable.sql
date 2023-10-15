@@ -20,11 +20,12 @@ VALUES
     ('The Beatles', 'UK', 'Rock'),
     ('Jay-Z', 'USA', 'Hip Hop');
 
-INSERT INTO songs (title, genre_id, artist_id, album, image_url)
+INSERT INTO songs (title, genre_id, artist_id, album, image_url, song_url)
 VALUES 
-    ('Thriller', 1, 1, 'Thriller', 'https://example.com/thriller.jpg'),
-    ('Hey Jude', 2, 2, 'The Beatles (White Album)', 'https://example.com/hey_jude.jpg'),
-    ('Empire State of Mind', 3, 3, 'The Blueprint 3', 'https://example.com/empire_state.jpg');
+    ('Thriller', 1, 1, 'Thriller', 'https://example.com/thriller.jpg', 'https://example.com/thriller.mp3'),
+    ('Hey Jude', 2, 2, 'The Beatles (White Album)', 'https://example.com/hey_jude.jpg', 'https://example.com/hey_jude.mp3'),
+    ('Empire State of Mind', 3, 3, 'The Blueprint 3', 'https://example.com/empire_state.jpg', 'https://example.com/empire_state.mp3');
+
 
 INSERT INTO comments (user_id, song_id, comment)
 VALUES 
