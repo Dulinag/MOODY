@@ -64,12 +64,14 @@ const SignUp: React.FC<SignUpProps> = ({ darkMode }) => {
           usernameref.current.value = "";
           passwordref.current.value = "";
           emailref.current.value = "";
+
+          router.push('/profile');
+
         } catch (error) {
           console.error('Error creating user:', error);
           setFeedback("An error occurred while creating the user.");
         }
 
-        router.push('/profile');
       }
       
       

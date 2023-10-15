@@ -64,6 +64,10 @@ const Login: React.FC<SignUpProps> = ({ darkMode }) => {
           setError('');
           
           // Redirect or perform any actions after successful login
+
+        setPassword('');
+        SetEmailOrUsername('');
+        router.push('/profile');
           // ...
         } catch (error: any) {
           console.error('Error:', error);
@@ -75,9 +79,7 @@ const Login: React.FC<SignUpProps> = ({ darkMode }) => {
           }
         }
 
-        setPassword('');
-        SetEmailOrUsername('');
-        router.push('/profile');
+        
         console.log('After API call');
       }
 
