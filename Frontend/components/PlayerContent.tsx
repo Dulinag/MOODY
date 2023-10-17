@@ -12,7 +12,6 @@ import { Song } from "@/types";
 import usePlayer from "@/hooks/usePlayer";
 
 import LikeButton from "./LikeButton";
-import MediaItem from "./MediaItem";
 import Slider from "./Slider";
 
 
@@ -75,27 +74,32 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
     useEffect(() => {
     let timerId : number
 
-    if (isPlaying && !isSeeking) {
-        const f = () => {
-        setSeek(soundRef.current.seek())
-        timerId = raf(f)
+    const updateSeekBar = () => {
+        if(soundRef.current){
+            setSeek(soundRef.current.seek());
         }
+        timerId = requestAnimationFrame(updateSeekBar);
+      };
 
-        timerId = raf(f)
+    if (isPlaying && !isSeeking) {
+       updateSeekBar();
+    } else {
+        cancelAnimationFrame(timerId);
     }
-
-    }, [isPlaying, isSeeking])
+    
+    }, [isPlaying,isSeeking])
 
     const handlePlay = () => {
         if (!isPlaying) {
             setIsPlaying(true);
             setIsSeeking(true);
         } else {
+            setIsSeeking(false)
             setIsPlaying(false);
         }
     }
 
-    function formatTime(timeInSeconds = 0) {
+    const formatTime = (timeInSeconds = 0) => {
         return formatDuration(timeInSeconds * 1000)
       }
     
@@ -240,7 +244,7 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
                         type='range'
                         min='0'
                         max={songduration ? songduration.toFixed(2) as unknown as number : 0}
-                        step='0.00001'
+                        step='0.01'
                         value={seek}
                         onChange={onSeek}
                         onMouseDown={() => setIsSeeking(true)}  
