@@ -1,28 +1,57 @@
 
 import React, {useState} from 'react'
-import Login from '@/components/Login'
-import Header from '@/components/Header'
-import ListItem from '@/components/ListItem'
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/Avatar"
+import Header from "@/components/Header";
+import { dummyData } from '@/data/dummydata'
+import PageContent from '@/components/PageContent';
 
-
-
-
-
+export const revalidate = 0;
 const ProfilePage = () => {
     return (
-<>
-<div className="    h-fit
-        bg-gradient-to-b
-        from-purple-400/50
-        p-6
-        justify-center
-        flex
-        text-xl 
-         ">      
-        
-        
-        Hello Guest
-</div>
+      <>
+        <div className="    
+                bg-neutral-700
+                rounded-lg
+                h-full
+                w-full
+                overflow-hidden
+                overflow-y-auto
+                ">
+                <Header>     
+                  <div className="flex justify-start ">
+                    <Avatar >
+                      <AvatarImage  src='./images/ai.png' />
+                      <AvatarFallback>User Avatar</AvatarFallback>
+                    </Avatar>
+                    <div className="flex flex-col w-full ">
+                      <p className="
+                        text-xl 
+                        text-center 
+                        font-semibold
+                        flex
+                        justify-start
+                        ">Profile
+                      </p>
+                      <h1 className="
+                      text-6xl 
+                      flex 
+                      items-center
+                      ml-5
+                      " >Jack glenhall</h1>
+                    </div>
+                  </div>
+                </Header>  
+                <div className="mt-2 mb-7 px-6">
+                <div className="flex justify-between items-center">
+                    <h2 className="text-white text-2xl font-semibold">
+                      Your Songs
+                    </h2>
+                </div>
+                  <div >
+                    <PageContent songs={dummyData}/>
+                  </div>
+                </div>
+        </div>
       </>
     )
 

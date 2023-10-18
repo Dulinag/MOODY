@@ -11,7 +11,8 @@ import ListItem from '@/components/ListItem'
 const LoginPage = () => {
     return (
 <>
-<div className="    h-fit
+<div className=" 
+        h-fit
         bg-gradient-to-b
         from-purple-400/50
         p-6
