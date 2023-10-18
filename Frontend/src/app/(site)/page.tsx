@@ -9,7 +9,7 @@ export const revalidate = 0;
 export default function Home() {
   return (
     <div className="
-      bg-neutral-900
+      bg-neutral-700
       rounded-lg
       h-full
       w-full
@@ -41,16 +41,25 @@ export default function Home() {
             </div>
           </div>
         </Header>
-        <div className="mt-2 mb-7 px-6">
-        <div className="flex justify-between items-center">
-            <h1 className="text-white text-2xl font-semibold">
-              Newest Songs
-            </h1>
-        </div>
-          <div >
-            <PageContent songs={dummyData}/>
+          <div className="
+          mt-2 
+          mb-7 
+          px-6">
+          <div className="
+          flex 
+          justify-between 
+          items-center">
+              <h2 className="
+              text-white 
+              text-2xl 
+              font-semibold">
+                Newest Songs
+              </h2>
           </div>
-        </div>
+            <div >
+              <PageContent songs={dummyData}/>
+            </div>
+          </div>
     </div>
   )
 }

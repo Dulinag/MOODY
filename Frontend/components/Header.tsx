@@ -37,7 +37,6 @@ const Header:React.FC<HeaderProps> = ({children, className}) => {
     }>
         <div className="
         w-full
-        nb-4
         flex
         items-center
         justify-between">
