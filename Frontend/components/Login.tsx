@@ -134,8 +134,6 @@ const Login: React.FC<SignUpProps> = ({ darkMode }) => {
                     {error && <div className="error-message">{error}</div>}
                 </div>
 
-
-                
                 </form>
         </Modal>
     </>

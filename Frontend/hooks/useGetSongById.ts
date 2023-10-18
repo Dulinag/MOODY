@@ -6,7 +6,7 @@ import { dummyData } from "@/data/dummydata";
 
 const useSongById = (id?: string) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [song, setSong] = useState({});
+  const [song, setSong] = useState<Song | any>({});
 
   useEffect(() => {
     if (!id) {
@@ -18,9 +18,8 @@ const useSongById = (id?: string) => {
     const fetchSong = async () => {
     const data = dummyData.filter((song) => id === song.id)
 
-      
-      setSong(data);
-      setIsLoading(false);
+    setSong(data);
+    setIsLoading(false);
     }
 
     fetchSong();
