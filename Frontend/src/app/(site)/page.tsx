@@ -21,8 +21,8 @@ export default function Home() {
             <h1 className="
               text-white
               text-3xl
-              font-semibold">
-              Moody 
+              font-semibold font-roboto">
+              Mood-X 
             </h1>
             <div className="
               grid

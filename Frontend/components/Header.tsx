@@ -23,7 +23,7 @@ const Header:React.FC<HeaderProps> = ({children, className}) => {
 
   const openModal = useModal((state) => state.onOpen)
 
-  const handleLogour = () => {
+  const handleLogout = () => {
 
     //handle logout in future
   }
@@ -52,6 +52,7 @@ const Header:React.FC<HeaderProps> = ({children, className}) => {
                     <RxCaretRight className='text-white'  size={35}/>
                 </button>
             </div>
+            {/* Mobile View */}
             <div className="flex md:hidden gap-x-2 items-center">
                 <button 
                     className="
@@ -112,7 +113,8 @@ const Header:React.FC<HeaderProps> = ({children, className}) => {
 
                                 bg-white
                                 px-6
-                                py-2">
+                                py-2
+                                font-geist">
                                 Log In
                             </Button>
                         </div>
