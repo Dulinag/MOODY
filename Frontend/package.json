@@ -22,6 +22,7 @@
     "eslint-config-next": "13.5.2",
     "format-duration": "^3.0.2",
     "formik": "^2.4.5",
+    "geist": "^1.0.0",
     "howler": "^2.2.4",
     "next": "13.5.2",
     "next-auth": "^4.23.2",

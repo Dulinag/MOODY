@@ -8,7 +8,7 @@ const config = {
     port: process.env.PGPORT,
     database: process.env.PGDATABASE,
     ssl: {
-        rejectUnauthorized: false // Set to true for 'require' SSL mode
+        rejectUnauthorized: true // Set to true for 'require' SSL mode
     }
 }
 

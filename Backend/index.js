@@ -1,8 +1,9 @@
-import express from "express";
+import express from 'express'
 import cors from "cors";
 import jwt from 'jsonwebtoken';
 // import userRoute from './routes/users';
-// import artistRoute from './routes/artists';
+import artistRouter from './routes/artists.js'
+import songsRouter from './routes/songs.js'
 // import commentRoute from './routes/comments';
 // import genreRoute from './routes/genres';
 // import songRoute from './routes/songs';
@@ -18,7 +19,7 @@ import jwt from 'jsonwebtoken';
 //     return res.status(401).json({ message: 'No token provided' });
 //   }
 
-//   // Verify the token
+// // Verify the token
 //   try {
 //     const decodedToken = jwt.verify(token, accessTokenSecret);
 //     req.user = decodedToken; // Attach the decoded token to the request object
@@ -34,13 +35,10 @@ app.use(express.json())
 app.use(cors());
 
 
-
-
-
 // app.use('/users', userRoute)
 // app.use('/comments', commentRoute)
 
-// app.use('/artists', artistRoute)
+
 // app.use('/genres', genreRoute)
 // app.use('/likes', likeRoute)
 
@@ -53,10 +51,11 @@ app.get('/', (req, res) => {
   res.status(200).send('<h1 style="text-align: center; margin-top: 50px;">✈️ Wohooo</h1>')
 })
 
-//middlewear
+//middleware
 
-//Routes//
-
+//Routes
+app.use('/artists', artistRouter)
+app.use('/songs', songsRouter)
 //genre get
 
 //user get
@@ -68,5 +67,5 @@ app.get('/', (req, res) => {
 //likes
 
 app.listen(5000, () =>{
-    console.log("Server has started on port 5000")
+    console.log(" 🚀 Server has started on port 5000")
 });
