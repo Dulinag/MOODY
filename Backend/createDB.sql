@@ -55,3 +55,13 @@ CREATE TABLE likes (
     FOREIGN KEY (user_id) REFERENCES users(user_id),
     FOREIGN KEY (comment_id) REFERENCES comments(comment_id)
 );
+
+CREATE TABLE friendships (
+    friendship_id SERIAL PRIMARY KEY,
+    user1_id INT,
+    user2_id INT,
+    status VARCHAR(20) DEFAULT 'accepted' CHECK (status IN ('accepted', 'rejected', 'blocked')),
+    created_at TIMESTAMP DEFAULT NOW(),
+    FOREIGN KEY (user1_id) REFERENCES users(user_id),
+    FOREIGN KEY (user2_id) REFERENCES users(user_id)
+);
