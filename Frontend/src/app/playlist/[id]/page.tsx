@@ -7,12 +7,13 @@ import { Playlists, Song } from "@/types";
 import { useParams } from 'next/navigation'
 import useGetSongById  from '@/hooks/useGetSongById';
 import SongItem from '@/components/SongItem';
+import useOnPlay from "@/hooks/useOnPlay";
 
 const PlaylistPage = () => {
 const [playlist, setPlaylist] = useState<Playlists | null>(null);
 const [songs, setSongs] = useState<Song[]>([]);
 let songIds = []; 
-
+const onPlay = useOnPlay(songs)
 const {id} = useParams()
 
     useEffect(() => {

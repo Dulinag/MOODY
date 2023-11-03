@@ -50,7 +50,6 @@ app.get('/', (req, res) => {
   res.status(200).send('<h1 style="text-align: center; margin-top: 50px;">✈️ Wooohooo</h1>')
 })
 app.use('/artists', artistRoute)
-app.use('/songs', songsRoute)
 app.listen(5000, () =>{
     console.log(" 🚀 Server has started on port 5000")
 });
