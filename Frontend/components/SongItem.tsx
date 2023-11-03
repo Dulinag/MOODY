@@ -16,7 +16,7 @@ const SongItem: React.FC<SongItemProps> = ({
 
   return ( 
     <div
-      onClick={() => onClick(data.id)} 
+      onClick={() => onClick(data.song_id)} 
       className="
         relative group flex flex-col items-center justify-center rounded-md overflow-hidden gap-x-1 bg-neutral-400/5 cursor-pointer 
         hover:bg-neutral-400/10 transition p-2 
@@ -34,7 +34,7 @@ const SongItem: React.FC<SongItemProps> = ({
       >
         <Image
           className="object-cover"
-          src={data.image_path || '/images/placeholder.gif'}
+          src={data.image_url || '/images/placeholder.gif'}
           fill
           alt="Image"
         />
@@ -52,7 +52,7 @@ const SongItem: React.FC<SongItemProps> = ({
             truncate
           "
         >
-          By {data.author}
+          By {data.artist_id}
         </p>
       </div>
       <div 

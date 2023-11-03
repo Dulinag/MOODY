@@ -1,8 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
-
+import { getSongs } from "@/src/app/api/songs/route"
 
 import { Song } from "@/types";
-import { dummyData } from "@/data/dummydata";
 
 const useSongById = (id?: string) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -16,7 +15,8 @@ const useSongById = (id?: string) => {
     setIsLoading(true);
 
     const fetchSong = async () => {
-    const data = dummyData.filter((song) => id === song.id)
+    const songData = await getSongs();
+    const data = songData.filter((song) => id === song.song_id)
 
     setSong(data);
     setIsLoading(false);

@@ -1,14 +1,14 @@
 import { Song } from "@/types";
-import { dummyData } from "@/data/dummydata";
+import { getSongs } from "@/src/app/api/songs/route"
 
-const useLoadSongUrl = (id?: string) => {
+const useLoadSongUrl = async (id?: string) => {
 
   if (!id) {
     return '';
   }
-
-  const data = dummyData.filter((song) => id === song.id)
-  return data[0].song_path
+  const songData = await getSongs();
+  const data = songData.filter((song) => id === song.song_id)
+  return data[0].song_url
 };
 
 export default useLoadSongUrl;

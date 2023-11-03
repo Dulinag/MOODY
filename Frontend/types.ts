@@ -1,8 +1,15 @@
 export interface Song {
-    id: string;
-    user_id: string;
-    author: string;
+    song_id: string;
     title: string;
-    song_path: string;
-    image_path: string;
+    artist_id: string;
+    image_url: string;
+    song_url: string;
+    created_at: string;
   }
+
+export interface Playlists{
+  id: string;
+  name: string;
+  created_by: string;
+  songs: number[];
+}
