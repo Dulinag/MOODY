@@ -47,7 +47,7 @@ const MediaItem: React.FC<MediaItemProps> = ({
       >
         <Image
           fill={true}
-          src={data.image_url || "/images/placeholder.gif" }
+          src={ "/images/playlist.png" }
           alt="MediaItem"
           className="object-cover"
         />

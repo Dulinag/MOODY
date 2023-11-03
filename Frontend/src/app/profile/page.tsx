@@ -2,10 +2,8 @@
 import React, {useState} from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/Avatar"
 import Header from "@/components/Header";
-import { dummyData } from '@/data/dummydata'
 import PageContent from '@/components/PageContent';
 
-export const revalidate = 0;
 const ProfilePage = () => {
     return (
       <>
@@ -48,7 +46,7 @@ const ProfilePage = () => {
                     </h2>
                 </div>
                   <div >
-                    <PageContent songs={dummyData}/>
+                    <PageContent />
                   </div>
                 </div>
         </div>

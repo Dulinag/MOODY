@@ -1,22 +1,28 @@
 "use client";
-
+import {useEffect, useState} from 'react';
 import { Song } from "@/types";
 import useOnPlay from "@/hooks/useOnPlay";
 import SongItem from "@/components/SongItem";
+import { getSongs } from '@/src/app/api/songs/route'
 
-interface PageContentProps {
-  songs: Song[];
-}
 
-const PageContent: React.FC<PageContentProps> = ({
-  songs
-}) => {
+const PageContent = () => {
+  const [songs, setSongs] = useState<Song[]>([]);
+
+  useEffect(() => {
+    const fetchSongs = async () => {
+      const songData = await getSongs();
+      console.log(songData)
+      setSongs(songData);
+    };
+
+    fetchSongs();
+  }, []);
   const onPlay = useOnPlay(songs);
-
   if (songs.length === 0) {
     return (
       <div className="mt-4 text-neutral-400">
-        No songs available.
+        Loading Songs ...
       </div>
     )
   }
@@ -36,15 +42,14 @@ const PageContent: React.FC<PageContentProps> = ({
         mt-4
       "
     >
-      {songs.map((item) => (
+      {songs.map((song) => (
         <SongItem
-          onClick={(id: string) => onPlay(id)} 
-          key={item.id} 
-          data={item}
+          onClick={(song_id: string) => onPlay(song_id)} 
+          key={song.song_id} 
+          data={song}
         />
       ))}
     </div>
   );
 }
- 
 export default PageContent;

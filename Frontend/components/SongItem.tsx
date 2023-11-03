@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { Song } from "@/types";
 import PlayButton from "./PlayButton";
+import useLoadArtistById from "@/hooks/useLoadArtistById";
 
 interface SongItemProps {
   data: Song;
@@ -52,7 +53,7 @@ const SongItem: React.FC<SongItemProps> = ({
             truncate
           "
         >
-          By {data.artist_id}
+          By {useLoadArtistById(data.artist_id)}
         </p>
       </div>
       <div 
