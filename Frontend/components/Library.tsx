@@ -2,10 +2,10 @@
 import {useState, useEffect } from 'react'
 import { TbPlaylist } from 'react-icons/tb'
 import { AiOutlinePlus } from 'react-icons/ai'
-import { dummyData } from '@/data/dummydata'
 import MediaItem from './MediaItem'
 import { getPlaylists } from '@/src/app/api/playlists/route'
 import { Playlists } from "@/types";
+import Link from 'next/link'
 
 const Library = () => {
   const [playlists, setPlaylists] = useState<Playlists[]>([]);
@@ -13,7 +13,6 @@ const Library = () => {
   useEffect(() => {
     const fetchPlaylists = async () => {
       const playlistData = await getPlaylists();
-      console.log(playlistData)
       setPlaylists(playlistData);
     };
 
@@ -30,12 +29,11 @@ const Library = () => {
                 onClick = {() => console.log('Logic for adding playlist here later')} size={20} className="text-neutral-400 cursor-pointer hover:text-white transition"/>
         </div>
         <div className="flex flex-col gap-y-2 mt-4 px-3">
-            {playlists.map((item) => (
-              <MediaItem 
-              onClick ={() => (console.log('hi'))}
-              key={item.id}
-              data={item}/>
-            ))}
+        {playlists.map((item) => (
+          <Link href={`/playlist/${item.id}`} key={item.id}>
+            <MediaItem data={item}/> 
+          </Link>
+        ))}
         </div>
     </div>
   )

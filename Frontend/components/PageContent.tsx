@@ -11,9 +11,9 @@ const PageContent = () => {
 
   useEffect(() => {
     const fetchSongs = async () => {
-      const songData = await getSongs();
-      console.log(songData)
-      setSongs(songData);
+      const response = await fetch('http://localhost:5000/songs');
+      const datax = await response.json();
+      setSongs(datax);
     };
 
     fetchSongs();
