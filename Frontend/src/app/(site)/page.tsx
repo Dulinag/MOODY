@@ -1,12 +1,12 @@
 import Header from "@/components/Header"
 import ListItem from "@/components/ListItem"
 import PageContent from "./components/pageContent"
-import { dummyData } from '@/data/dummydata'
 
 
 export const revalidate = 0;
 
 export default function Home() {
+
   return (
     <div className="
       bg-neutral-700
@@ -57,7 +57,7 @@ export default function Home() {
               </h2>
           </div>
             <div >
-              <PageContent songs={dummyData}/>
+              <PageContent/>
             </div>
           </div>
     </div>

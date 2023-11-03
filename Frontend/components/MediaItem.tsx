@@ -1,10 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import { Song } from "@/types";
+import { Playlists } from "@/types";
 
 interface MediaItemProps {
-  data: Song;
+  data: Playlists;
   onClick?: (id: string) => void
 }
 
@@ -47,15 +47,15 @@ const MediaItem: React.FC<MediaItemProps> = ({
       >
         <Image
           fill={true}
-          src={data.image_path || "/images/placeholder.gif" }
+          src={data.image_url || "/images/placeholder.gif" }
           alt="MediaItem"
           className="object-cover"
         />
       </div>
       <div className="flex flex-col gap-y-1 overflow-hidden">
-        <p className="text-white truncate">{data.title}</p>
+        <p className="text-white truncate">{data.name}</p>
         <p className="text-neutral-400 text-sm truncate">
-          {data.author}
+          {data.created_by}
         </p>
       </div>
     </div>

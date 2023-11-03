@@ -1,6 +1,7 @@
 import { pool } from './database.js'
 import './dotenv.js'
 import { songData } from '../data/songs.js'
+import { playlistData } from '../data/playlists.js'
 
 const createUsersTable = async () => {
     const createQuery = `
@@ -44,7 +45,8 @@ const createSongsTable = async () => {
 
 const seedSongsTable = async () => {
     try {
-        await createSongsTable();
+        await createSongsTable()
+        await createUsersTable()
 
         for (const song of songData) {
             const insertQuery = {
@@ -66,4 +68,48 @@ const seedSongsTable = async () => {
     }
 };
 
+const createPlaylistTable = async () => {
+    const createQuery = `
+    CREATE TABLE IF NOT EXISTS playlists (
+        id SERIAL PRIMARY KEY,
+        name VARCHAR(255) NOT NULL,
+        created_by VARCHAR(255) NOT NULL,
+        songs INTEGER[]
+    );
+    `;
+
+        //need to change sql to relate to user later
+        //created_by INTEGER NOT NULL REFERENCES users(user_id),
+    try {
+        const res = await pool.query(createQuery);
+        console.log('🎉 playlists table created successfully');
+    } catch (e) {
+        console.error('⚠️ error creating playlists table', e);
+    }
+};
+
+const seedPlaylistsTable = async () => {
+    try {
+        await createPlaylistTable()
+
+        for (const playlist of playlistData) {
+            const insertQuery = {
+                text: 'INSERT INTO playlists (id, name, created_by, songs) VALUES ($1, $2, $3, $4)',
+                values: [
+                    playlist.playlist_id,
+                    playlist.name,
+                    playlist.created_by,
+                    playlist.songs
+                ]
+            };
+
+            const res = await pool.query(insertQuery);
+            console.log(`✅ ${playlist.name} added successfully`);
+        }
+    } catch (err) {
+        console.error('⚠️ error seeding songs table', err);
+    }
+};
+
+seedPlaylistsTable()
 seedSongsTable()

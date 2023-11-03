@@ -140,7 +140,7 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
                     )}
                     {song && song[0] && song[0].title ? <p>{song[0].title}</p> : <p>No title available</p>}
                 </div>
-                    <LikeButton songId={song.id} />
+                    <LikeButton songId={song.song_id} />
                     <ReactHowler
                         playing={isPlaying}
                         src={songUrl}
