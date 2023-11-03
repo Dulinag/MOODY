@@ -5,26 +5,17 @@ import { Playlists } from "@/types";
 
 interface MediaItemProps {
   data: Playlists;
-  onClick?: (id: string) => void
 }
 
 const MediaItem: React.FC<MediaItemProps> = ({
-  data,
-  onClick,
+  data
 }) => {
 
-  const handleClick = () => {
-    if (onClick) {
-      return onClick(data.id);
-    }
-    // Gotta play music here later
-    return;
-  };
 
 
   return ( 
     <div
-      onClick={handleClick}
+      
       className="
         flex 
         items-center 
