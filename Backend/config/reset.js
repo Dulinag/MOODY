@@ -49,18 +49,34 @@ const seedSongsTable = async () => {
         await createUsersTable()
 
         for (const song of songData) {
-            const insertQuery = {
-                text: 'INSERT INTO songs (song_id, title, artist_id, image_url, song_url) VALUES ($1, $2, $3, $4, $5)',
+            // const insertQuery = {
+            //     text: 'INSERT INTO songs (song_id, title, artist_id, image_url, song_url) VALUES ($1, $2, $3, $4, $5)',
+            //     values: [
+            //         song.song_id,
+            //         song.title,
+            //         song.artist_id,
+            //         song.image_url,
+            //         song.song_url,
+            //     ]
+            // };
+            const updateQuery = {
+            text: `UPDATE songs 
+                    SET title = $1, 
+                    artist_id = $2, 
+                    image_url = $3,  
+                    song_url = $4
+                WHERE song_id = $5
+                `,
                 values: [
-                    song.song_id,
                     song.title,
                     song.artist_id,
                     song.image_url,
                     song.song_url,
+                    song.song_id
                 ]
-            };
+            }
 
-            const res = await pool.query(insertQuery);
+            const res = await pool.query(updateQuery);
             console.log(`✅ ${song.title} added successfully`);
         }
     } catch (err) {
@@ -111,5 +127,46 @@ const seedPlaylistsTable = async () => {
     }
 };
 
-seedPlaylistsTable()
-seedSongsTable()
+const createArtistTable = async () => {
+    const createQuery = `
+    CREATE TABLE IF NOT EXISTS artists (
+        artist_id SERIAL PRIMARY KEY,
+        name VARCHAR(100),
+        country VARCHAR(50),
+        genre VARCHAR(50),
+        created_at TIMESTAMP DEFAULT NOW()
+    );
+    `;
+
+    try {
+        const res = await pool.query(createQuery);
+        console.log('🎉 artists table created successfully');
+    } catch (e) {
+        console.error('⚠️ error creating artists table', e);
+    }
+};
+
+const seedArtistsTable = async () => {
+    try {
+        await createArtistTable()
+
+        const insertQuery = {
+            text: `INSERT INTO artists (name, country, genre) VALUES
+            ('Andrah', 'UK', 'Pop'),
+            ('Wateva', 'USA', 'Pop'),
+            ('Zack Merci', 'USA', 'Alternative'),
+            ('Karra', 'South Korea', 'K-pop'),
+            ('paul Flint', 'UK', 'Pop'),
+            ('Zaug', 'USA', 'Hip Hop')
+            `};
+
+            await pool.query(insertQuery);
+            console.log(`✅ artists added successfully`);
+        }
+    catch (err) {
+        console.error('⚠️ error seeding songs table', err);
+    }
+};
+// seedArtistsTable()
+// seedPlaylistsTable()
+// seedSongsTable()

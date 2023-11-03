@@ -5,10 +5,10 @@ import { BsPauseFill, BsPlayFill } from "react-icons/bs";
 import { HiSpeakerWave, HiSpeakerXMark } from "react-icons/hi2";
 import { AiFillStepBackward, AiFillStepForward } from "react-icons/ai";
 import ReactHowler from 'react-howler'
-import raf from 'raf'
 import formatDuration from 'format-duration'
 
 import { Song } from "@/types";
+import useLoadArtistById from "@/hooks/useLoadArtistById";
 import usePlayer from "@/hooks/usePlayer";
 
 import LikeButton from "./LikeButton";
@@ -18,11 +18,13 @@ import Slider from "./Slider";
 interface PlayerContentProps {
     song: Song;
     songUrl: string;
+    artist: string
 }
 
 const PlayerContent: React.FC<PlayerContentProps> = ({
     song,
-    songUrl
+    songUrl,
+    artist
 }) => {
     const player = usePlayer();
     const volume = player.volume
@@ -133,12 +135,21 @@ const PlayerContent: React.FC<PlayerContentProps> = ({
             <div className="flex min-w-[100px] justify-start">
                 <div className="flex items-center gap-x-20">
                 <div className="flex items-center gap-x-3">
-                    {song && song[0] && song[0].image_path ? (
-                        <img src={song[0].image_path} width={60} height={60} alt="Song Cover" />
+                    {song && song[0] && song[0].image_url ? (
+                        <img src={song[0].image_url} width={60} height={60} alt="Song Cover" />
                     ) : (
                         <></>
                     )}
+                    <div className="flex flex-col">
                     {song && song[0] && song[0].title ? <p>{song[0].title}</p> : <p>No title available</p>}
+                    
+                    <p className="
+                        text-neutral-400 
+                        text-sm 
+                        pb-4 
+                        truncate
+                    ">By {artist}</p>
+                    </div>
                 </div>
                     <LikeButton songId={song.song_id} />
                     <ReactHowler

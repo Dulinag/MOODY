@@ -8,7 +8,7 @@ import { getPlaylists } from '@/src/app/api/playlists/route'
 import { Playlists } from "@/types";
 
 const Library = () => {
-  const [playlists, setPlaylists] = useState<Playlist[]>([]);
+  const [playlists, setPlaylists] = useState<Playlists[]>([]);
 
   useEffect(() => {
     const fetchPlaylists = async () => {
@@ -27,7 +27,7 @@ const Library = () => {
                 <p className="text-neutral-400 font-medium text-md"> Your Playlists</p>
             </div>
             <AiOutlinePlus 
-                onClick = {() => console.log('hi')} size={20} className="text-neutral-400 cursor-pointer hover:text-white transition"/>
+                onClick = {() => console.log('Logic for adding playlist here later')} size={20} className="text-neutral-400 cursor-pointer hover:text-white transition"/>
         </div>
         <div className="flex flex-col gap-y-2 mt-4 px-3">
             {playlists.map((item) => (

@@ -45,6 +45,7 @@ app.use('/genres', genreRoute)
 app.use('/likes', likeRoute)
 app.use('/songs', songRoute)
 app.use('/playlists', playlistsRoute)
+app.use('/artist', artistRoute)
 app.get('/', (req, res) => {
   res.status(200).send('<h1 style="text-align: center; margin-top: 50px;">✈️ Wooohooo</h1>')
 })

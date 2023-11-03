@@ -1,7 +1,7 @@
 import { pool } from '../config/database.js'
 
 const getArtistById = async (req, res) => {
-    const artist_id = req.params.artist_id;
+    const artist_id = req.params.id;
     const client = await pool.connect();
     try {
         const result = await client.query('SELECT * FROM artists WHERE artist_id = $1', [artist_id]);

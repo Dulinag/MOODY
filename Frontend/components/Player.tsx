@@ -4,11 +4,12 @@ import usePlayer from "@/hooks/usePlayer";
 import useGetSongById from '@/hooks/useGetSongById';
 import useLoadSongUrl from "@/hooks/useLoadSongUrl";
 import PlayerContent from '@/components/PlayerContent'
-
+import useLoadArtistById from "@/hooks/useLoadArtistById";
 
 const Player = () => {
     const player = usePlayer();
     const { song } = useGetSongById(player.activeId);
+    const artist = useLoadArtistById(player.activeId);
     const [songUrl, setSongUrl] = useState(null);
     useEffect(() => {
         const loadSongUrl = async () => {
@@ -36,8 +37,9 @@ const Player = () => {
         >
             <PlayerContent
                 song={song}
-                key={songUrl}
-                songUrl={songUrl} />
+                key={songUrl || ''}
+                songUrl={songUrl || ''}
+                artist = {artist || ''} />
         </div>
     );
 }
