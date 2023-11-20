@@ -1,0 +1,86 @@
+// Dummy data for users
+export const userData = [
+    {
+      user_id: 1,
+      username: 'user1',
+      password: 'password1',
+      created_at: new Date(),
+      image_url: 'https://example.com/user1.jpg',
+      email: 'user1@example.com',
+    },
+    {
+      user_id: 2,
+      username: 'user2',
+      password: 'password2',
+      created_at: new Date(),
+      image_url: 'https://example.com/user2.jpg',
+      email: 'user2@example.com',
+    },
+    {
+      user_id: 3,
+      username: 'user3',
+      password: 'password3',
+      created_at: new Date(),
+      image_url: 'https://example.com/user3.jpg',
+      email: 'user3@example.com',
+    },
+    {
+      user_id: 4,
+      username: 'user4',
+      password: 'password4',
+      created_at: new Date(),
+      image_url: 'https://example.com/user4.jpg',
+      email: 'user4@example.com',
+    },
+    {
+      user_id: 5,
+      username: 'user5',
+      password: 'password5',
+      created_at: new Date(),
+      image_url: 'https://example.com/user5.jpg',
+      email: 'user5@example.com',
+    },
+    {
+      user_id: 6,
+      username: 'user6',
+      password: 'password6',
+      created_at: new Date(),
+      image_url: 'https://example.com/user6.jpg',
+      email: 'user6@example.com',
+    },
+    {
+      user_id: 7,
+      username: 'user7',
+      password: 'password7',
+      created_at: new Date(),
+      image_url: 'https://example.com/user7.jpg',
+      email: 'user7@example.com',
+    },
+    {
+      user_id: 8,
+      username: 'user8',
+      password: 'password8',
+      created_at: new Date(),
+      image_url: 'https://example.com/user8.jpg',
+      email: 'user8@example.com',
+    },
+    {
+      user_id: 9,
+      username: 'user9',
+      password: 'password9',
+      created_at: new Date(),
+      image_url: 'https://example.com/user9.jpg',
+      email: 'user9@example.com',
+    },
+    {
+      user_id: 10,
+      username: 'user10',
+      password: 'password10',
+      created_at: new Date(),
+      image_url: 'https://example.com/user10.jpg',
+      email: 'user10@example.com',
+    },
+  ];
+  
+  // Export other necessary data or functions if needed
+  
