@@ -6,7 +6,7 @@ const useLoadArtistById = (id?: string) => {
   }
  
   const data = artistData.filter((artist) => Number(id) === artist.artist_id)
-  if(data){
+  if(data && data[0]){
       return(data[0]['name'])
   }
 };

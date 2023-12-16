@@ -49,23 +49,27 @@ const seedSongsTable = async () => {
         await createUsersTable()
 
         for (const song of songData) {
-            // const insertQuery = {
-            //     text: 'INSERT INTO songs (song_id, title, artist_id, image_url, song_url) VALUES ($1, $2, $3, $4, $5)',
-            //     values: [
-            //         song.song_id,
-            //         song.title,
-            //         song.artist_id,
-            //         song.image_url,
-            //         song.song_url,
-            //     ]
-            // };
+            const insertQuery = {
+                text: 'INSERT INTO songs (song_id, title, artist_id, image_url, song_url) VALUES ($1, $2, $3, $4, $5)',
+                values: [
+                    song.song_id,
+                    song.title,
+                    song.artist_id,
+                    song.image_url,
+                    song.song_url,
+                ]
+            };
+
+            const deleteQuery = {
+                text: 'DELETE FROM songs'
+            }
             const updateQuery = {
             text: `UPDATE songs 
                     SET title = $1, 
                     artist_id = $2, 
                     image_url = $3,  
                     song_url = $4
-                WHERE song_id = $5
+                    WHERE song_id = $5
                 `,
                 values: [
                     song.title,
@@ -76,7 +80,7 @@ const seedSongsTable = async () => {
                 ]
             }
 
-            const res = await pool.query(updateQuery);
+            const res = await pool.query(insertQuery);
             console.log(`✅ ${song.title} added successfully`);
         }
     } catch (err) {
@@ -90,8 +94,8 @@ const createPlaylistTable = async () => {
         id SERIAL PRIMARY KEY,
         name VARCHAR(255) NOT NULL,
         created_by VARCHAR(255) NOT NULL,
-        songs INTEGER[]
-    );
+        songs JSONB NOT NULL 
+      );
     `;
 
         //need to change sql to relate to user later
@@ -110,14 +114,16 @@ const seedPlaylistsTable = async () => {
 
         for (const playlist of playlistData) {
             const insertQuery = {
-                text: 'INSERT INTO playlists (id, name, created_by, songs) VALUES ($1, $2, $3, $4)',
+                text: 'INSERT INTO playlists (name, created_by, songs) VALUES ($1, $2, $3)',
                 values: [
-                    playlist.playlist_id,
                     playlist.name,
                     playlist.created_by,
                     playlist.songs
                 ]
             };
+            const deleteQuery = {
+                text: 'DELETE FROM playlists'
+            }
 
             const res = await pool.query(insertQuery);
             console.log(`✅ ${playlist.name} added successfully`);
@@ -156,8 +162,9 @@ const seedArtistsTable = async () => {
             ('Wateva', 'USA', 'Pop'),
             ('Zack Merci', 'USA', 'Alternative'),
             ('Karra', 'South Korea', 'K-pop'),
-            ('paul Flint', 'UK', 'Pop'),
-            ('Zaug', 'USA', 'Hip Hop')
+            ('Paul Flint', 'UK', 'Pop'),
+            ('Zaug', 'USA', 'Hip Hop'),
+            ('Reason','USA','DNB'),
             `};
 
             await pool.query(insertQuery);

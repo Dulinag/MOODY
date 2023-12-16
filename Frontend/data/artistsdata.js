@@ -40,5 +40,75 @@ export const artistData= [
         "country": "USA",
         "genre": "Hip Hop",
         "created_at": "2023-11-03T08:13:32.377Z"
-        }
+        },
+        {
+        "artist_id": 7,
+        "name": "Reason",
+        "country": "USA",
+        "genre": "DnB",
+        "created_at": "2023-11-03T08:13:32.377Z"
+        },
+        {
+        "artist_id": 8,
+        "name": "Jnathyn",
+        "country": "USA",
+        "genre": "DnB",
+        "created_at": "2023-11-03T08:13:32.377Z"
+        },
+        {
+        "artist_id": 9,
+        "name": "Ariadne",
+        "country": "USA",
+        "genre": "Pop",
+        "created_at": "2023-11-03T08:13:32.377Z"
+        },
+        {
+        "artist_id": 10,
+        "name": "PLVTO",
+        "country": "USA",
+        "genre": "PoP",
+        "created_at": "2023-11-03T08:13:32.377Z"
+        },
+        {
+        "artist_id": 11,
+        "name": "Shiah Maisel",
+        "country": "USA",
+        "genre": "PoP",
+        "created_at": "2023-11-03T08:13:32.377Z"
+        },
+        {
+        "artist_id": 12,
+        "name": "1$K1",
+        "country": "USA",
+        "genre": "PoP",
+        "created_at": "2023-11-03T08:13:32.377Z"
+        },
+        {
+        "artist_id": 13,
+        "name": "Wiguez",
+        "country": "USA",
+        "genre": "PoP",
+        "created_at": "2023-11-03T08:13:32.377Z"
+        },
+        {
+        "artist_id": 14,
+        "name": "Sketchez",
+        "country": "USA",
+        "genre": "PoP",
+        "created_at": "2023-11-03T08:13:32.377Z"
+        },
+        {
+        "artist_id": 15,
+        "name": "LAADS",
+        "country": "USA",
+        "genre": "PoP",
+        "created_at": "2023-11-03T08:13:32.377Z"
+        },
+        {
+            "artist_id": 15,
+            "name": "Endpoint",
+            "country": "USA",
+            "genre": "PoP",
+            "created_at": "2023-11-03T08:13:32.377Z"
+            },
     ]

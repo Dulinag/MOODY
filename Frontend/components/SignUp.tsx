@@ -137,13 +137,8 @@ const SignUp: React.FC<SignUpProps> = ({ darkMode }) => {
                         </Link>.
 
                         {feedback && <p>{JSON.stringify(feedback)}</p>}
-
-                        
-                        
                     </div>
-                    
             </form>
-
         </Modal >
 
     </>
